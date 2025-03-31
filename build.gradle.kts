@@ -13,6 +13,8 @@ repositories {
 }
 
 dependencies {
+    compileOnly("org.projectlombok:lombok:1.18.30")
+    annotationProcessor("org.projectlombok:lombok:1.18.30")
     implementation("org.springframework.boot:spring-boot-starter-web") // Spring Web
     implementation("org.springframework.boot:spring-boot-starter-security") // Spring Security
     implementation("org.springframework.boot:spring-boot-starter-data-jpa") // Spring Data JPA
