@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+// "CustomUserRepository" custom interface의 작동방식
 @Repository
 public class CustomUserRepositoryImpl implements CustomUserRepository {
     @PersistenceContext

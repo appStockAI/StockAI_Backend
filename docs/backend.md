@@ -46,4 +46,18 @@
 
 ### 5. 개발의 흐름
 
-- Client -> (JSON Data) -> DTO -> Controller -> Service -> Repository -> DB
+1. DTO : 사용자 입력을 받기 위한 클래스
+2. Controller : API endpoint(요청이 들어오는 곳)
+3. Repository : DB에서 사용자 정보 조회/저장
+4. Service : 비즈니스 로직 처리 
+5. Domain : Entity (DB 테이블 맵핑)
+
+### Repository 호출
+
+```aiignore
+Optional<User> userOpt = userRepository.findByUsernameOrEmail(request.getLogin());
+```
+
+부분에서 `findByUsernameOrEmail`은 `CustomUserRepository`에 있지만 `userRepository`를 사용한 이유
+
+- userRepository에서는 기본적으로 `extends`를 사용하여 `JpaRepository` + `CustomUserRepository`를 상속하기 때문이다
