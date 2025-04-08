@@ -39,13 +39,20 @@ public class UserIntegrationTest {
                     .andDo(print())
                     .andExpect(status().isOk());
 
-        LoginRequest login = new LoginRequest("testuser", "testuser1234");
-
+        LoginRequest UsernameLogin = new LoginRequest("testuser", "testuser1234");
         mockMvc.perform(post("/api/users/login").with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(login)))
+                .content(objectMapper.writeValueAsString(UsernameLogin)))
                     .andDo(print())
                     .andExpect(status().isOk())
-                    .andExpect(content().string("로그인 성공"));
+                    .andExpect(content().string("로그인 성공")); // UserController 의 응답("로그인 성공") 과 일치해야한다
+
+        LoginRequest loginEmail = new LoginRequest("testuser@gmail.com", "testuser1234");
+        mockMvc.perform(post("/api/users/login").with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(loginEmail)))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(content().string("로그인 성공")); // UserController 의 응답("로그인 성공") 과 일치해야한다
     }
 }
