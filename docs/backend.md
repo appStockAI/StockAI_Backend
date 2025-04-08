@@ -52,7 +52,7 @@
 4. Service : 비즈니스 로직 처리 
 5. Domain : Entity (DB 테이블 맵핑)
 
-### Repository 호출
+### 6. Repository 호출
 
 ```aiignore
 Optional<User> userOpt = userRepository.findByUsernameOrEmail(request.getLogin());
@@ -61,3 +61,15 @@ Optional<User> userOpt = userRepository.findByUsernameOrEmail(request.getLogin()
 부분에서 `findByUsernameOrEmail`은 `CustomUserRepository`에 있지만 `userRepository`를 사용한 이유
 
 - userRepository에서는 기본적으로 `extends`를 사용하여 `JpaRepository` + `CustomUserRepository`를 상속하기 때문이다
+
+### 7. Test
+
+- `@SpringBootTest`는 실제 앱처럼 모든 Bean을 불러오는데 이때 오류가 발생하면 -> `initializationError` 발생
+- 실제 실패 메세지, 응답내용은 테스트 index파일에서 확인 가능하다 : `bulid/reports/tests/test/classes/org.example.UserIntegrationTest.html`
+- CSRF Token 때문에 403(Forbidden) 에러 발생
+
+  Cross Site Request Forgery는 사용자가 의도하지 않은 요청을 다른 사이트에서 보내는 공격. 그래서 Spring Security는 이를 막기 위해서 `POST/PUT/DELETE` 요청에는 CSRF토큰을 강제합니다.
+
+  Spring Security는 요청 시 쿠키에 CSRF 토크을 담고, 클라이언트는 이 토큰을 Request Header에 같이 실어서 보냅니다
+
+- 회원가입 / 로그인은 CSRF 요청없이도 작동해야하기 때문에 `SecurityConfig`에서 예외사항을 만들어줌
