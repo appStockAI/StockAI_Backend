@@ -22,6 +22,8 @@ dependencies {
     runtimeOnly("com.h2database:h2") // H2 Database for testing
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("org.springframework.boot:spring-boot-starter-test") // Test
+    testImplementation("org.springframework.security:spring-security-test")
 }
 
 tasks.test {
