@@ -9,6 +9,7 @@ services:
       - ./postgres/custom_postgresql.conf:/etc/postgresql/postgresql.conf
       - pgdata:/var/lib/postgresql/data
       - pglogs:/var/log/postgresql
+    # 명시적으로 conf 파일의 경로를 지정해줘야 마운트 한 postgresql.conf가 적용이 된다
     command: postgres -c 'config_file=/etc/postgresql/postgresql.conf'
 
 volumes:
