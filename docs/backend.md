@@ -73,3 +73,13 @@ Optional<User> userOpt = userRepository.findByUsernameOrEmail(request.getLogin()
   Spring Security는 요청 시 쿠키에 CSRF 토크을 담고, 클라이언트는 이 토큰을 Request Header에 같이 실어서 보냅니다
 
 - 회원가입 / 로그인은 CSRF 요청없이도 작동해야하기 때문에 `SecurityConfig`에서 예외사항을 만들어줌
+
+### 8. Docker
+
+- `resources/application.yml` : SpringBoot 실핼될 때 필요한 설정값들(DB, Port, 로그레벨, 보안설정 등)을 지정해주는 파일
+
+- `Volume` : 데이터를 컨테이너가 종료돼도 유지. Docker가 관리하는 내부 경로에 저장됨
+
+- `pgdata:/var/lib/postgresql/data`에서  `/var/lib/postgresql/data` 는 PostgreSQL의 기본 데이터 Directory
+
+  즉 PostgreSQL의 데이터를 Docker 볼륨에 영속화
