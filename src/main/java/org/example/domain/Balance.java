@@ -21,4 +21,9 @@ public class Balance {
     private User user;
 
     private Long amount;
+
+    public Balance(User user, Long amount) {
+        this.user = user;
+        this.amount = amount;
+    }
 }

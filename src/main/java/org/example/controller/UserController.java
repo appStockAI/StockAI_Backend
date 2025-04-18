@@ -30,10 +30,12 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest request) {
-        if (userService.login(request)) {
-            return ResponseEntity.ok("로그인 성공");
+        String token = userService.loginAndGetToken(request);
+
+        if (token != null) {
+            return ResponseEntity.ok().body(token);
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("아이디 또는 비밀번호가 올바르지 않습니다.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("아이디 또는 비밀번호가 올바르지 않습니다");
         }
     }
 }
