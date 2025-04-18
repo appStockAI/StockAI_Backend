@@ -31,4 +31,7 @@ public class User {
         this.email = email;
         this.password = password;
     }
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Balance balance;
 }

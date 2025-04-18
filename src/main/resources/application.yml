@@ -1,3 +1,4 @@
+# export $(cat env/.env.dev | xargs) -> ./gradlew bootRun
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/${POSTGRES_DB}
@@ -12,3 +13,5 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     slow-sql: true
+
+

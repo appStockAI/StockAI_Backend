@@ -54,7 +54,7 @@
 
 ### 6. Repository 호출
 
-```aiignore
+```
 Optional<User> userOpt = userRepository.findByUsernameOrEmail(request.getLogin());
 ```
 
@@ -95,3 +95,66 @@ Optional<User> userOpt = userRepository.findByUsernameOrEmail(request.getLogin()
 - config와 log 경로가 적용되어 있는지 확인하기
 
   ![8.docker.png](pics/8.docker.png)
+
+# 자산관리
+
+### 1. Domain
+
+- User와 Balance Entity를 `OneToOne` 으로 구현
+
+- `cascade` : 부모 엔티티를 생성/삭제할 때 자식 엔티티도 생성/삭제할 것인지 알려주는 설정
+
+  주인 Entity는 자식 Entity가 생성된 후에 생성 될 수 있다. 그러므로 User가 먼저 생성되고 Balance가 생성되므로 부모는 Balance, 자식은 User로 설정했다.
+
+  Balance Entity에 unique 제약조건을 추가하여 1:1 관계를 만들었다
+
+### 2. Repository
+
+- `findByUserId` Method가 호출된다면 JPA는 이 method를 보고 
+
+  `SELECT * FROM balance WHERE user_id = ?;`와 같이 해석합니다.
+
+- 그리고나서 현재 사용하는 DB(Postgres)에 보내고 받은 결과를 Balance Entity로 반환
+
+- DB에서 user_id와 user를 조회해서 가져온다고 생각하면 된다.
+
+- `user_id`는 Balance Entity에 없지만 User Entity에서 `@JoinColumn(name = "user_id")`덕분에 User Entity에 있는 id를 가져올 수 있다
+
+### 3. Service
+
+- `public Long getBalance(String username);` 과 `private Balance getBalanceEntity(String username);`
+
+  public Long은 amount만 접근 가능하고 나머지 user, id에는 접근할 수 없습니다.
+
+  private Balance는 Balance 전체 Entity를 반환. 내부에서 amount 수정을 한다.
+
+- `MyService`라는 집을 지으려면 `UserRepository`라는 공구가 반드시 있어야한다고 선언. 그리고 생성자가 그 공구를 넣어주는 역할
+
+  ```
+  @RequiredArgsConstructor
+  public class MyService {
+    private final UserRepository userRepository;
+  }
+  ```
+  
+- Bean : Spring에서 생성하고 관리하는 객체(Instanace)
+
+  `@Service`붙히는 순간 이 클래스는 Bean이 된다.
+
+  즉 `UserRepository userRepository = new UserRepository();` 처럼 new를 이용해서 객체를 생성해주지 않아도 Spring이 대신 객체를 생성해서 관리해준다
+
+
+### 4. Controller
+
+- `BalanceController`를 실행하려면 `BalanceService` 객체가 필요하다. 이를 위해 `@RequiredArgsConstructor` annotation을 이용하여 생성자를 자동 생성하고
+
+  `private final BalanceSerivce balanceService;` 필드에서 스프링이 자동으로 해당 객체를 주입한다
+
+  이렇게 주입된 `BalanceService` 객체를 통해서 `BalanceController` 내부에서 `BalanceService` 매서드들을 자유롭게 사용할 수 있게된다.
+
+- `@RequiredArgsConstructor`를 이용하면 final이 붙은 필드에 대해서만 생성자를 만들어준다.
+
+### 5. JWT
+
+- API를 이용해 test 코드를 실행하는 도중 403 error 때문에 막혔다. -> JWT 인증을 구현하지 않았기 때문에 로그인만 성공하고 그 다음 세션으로 못넘어가고있었다.
+

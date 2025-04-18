@@ -19,6 +19,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security") // Spring Security
     implementation("org.springframework.boot:spring-boot-starter-data-jpa") // Spring Data JPA
     implementation("org.springframework.boot:spring-boot-starter-security") // Encoded Password
+    implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5") // for JSON parsing
     runtimeOnly("com.h2database:h2") // H2 Database for testing
     runtimeOnly("org.postgresql:postgresql") // PostgreSQL
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
