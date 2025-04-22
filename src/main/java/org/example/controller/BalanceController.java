@@ -3,6 +3,7 @@ package org.example.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.Service.BalanceService;
 import org.example.domain.User;
+import org.example.dto.balance.BalanceResponse;
 import org.example.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class BalanceController {
     public ResponseEntity<?> getBalance(@RequestParam String username) {
         return withUser(username, user -> {
             Long amount = balanceService.getBalance(username);
-            return ResponseEntity.ok(amount);
+            return ResponseEntity.ok(new BalanceResponse(amount));
         });
     }
 
