@@ -5,6 +5,11 @@ spring:
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resource:
+      add-mappings: false
 
   jpa:
     hibernate:
@@ -13,5 +18,3 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     slow-sql: true
-
-

@@ -12,8 +12,17 @@ services:
     # 명시적으로 conf 파일의 경로를 지정해줘야 마운트 한 postgresql.conf가 적용이 된다
     command: postgres -c 'config_file=/etc/postgresql/postgresql.conf'
 
+  redis:
+    image: redis:7.2-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+
 volumes:
   pgdata:
   pglogs:
+  redisdata:
 
 # Run : docker-compose -f docker/dev/docker-compose.yml up -d
