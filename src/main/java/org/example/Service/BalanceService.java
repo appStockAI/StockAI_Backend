@@ -50,6 +50,6 @@ public class BalanceService {
     // 내부 공용 Method
     private Balance getBalanceEntity(String username) {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다"));
-        return balanceRepository.findByUser(user).orElseThrow(() -> new IllegalStateException("잔고 정보가 없습니다"));
+        return balanceRepository.findByUser(user).orElseThrow(() -> new IllegalStateException("잔고를 찾을 수 없습니다"));
     }
 }
